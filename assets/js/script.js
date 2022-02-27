@@ -7,6 +7,8 @@ let cityCurrWeatherEl = document.querySelector("#wb-top");
 let cityFutWeatherEl = document.querySelector("#forcast-boxes");
 let currDate = new Date();
 
+console.log(currDate);
+
 // get the input from the text field and send it to get the weather info
 
 let formSubmitHandler = function(event) {
@@ -14,14 +16,15 @@ let formSubmitHandler = function(event) {
     let citySearchName = citySearchEl.value.trim();
     let searchHistoryEl = document.createElement("button");
     searchHistoryEl.textContent = citySearchName;
-    searchHistoryEl.className = "p-search-btn"
+    searchHistoryEl.className = "p-search-btn";
     if (citySearchName) {
         getWeatherInfo(citySearchName);
         citySearchEl.value = "";
     } else {
         alert("Please enter a city name");
+        return false;
     }
-}
+};
 
 let getWeatherInfo = function(cityName) {
 
@@ -70,7 +73,7 @@ let displayWeatherInfo = function(wInfo, tCityName){
         cityCurrWeatherEl.appendChild(currCityName);
     });
     wInfo.then(function(data) {
-        //console.log(data.current);
+        console.log(data);
 
         //Create elements that will contain and show the information gathered from the data
         let currWeatherIconEl = document.querySelector(".weather-icon");
@@ -78,7 +81,7 @@ let displayWeatherInfo = function(wInfo, tCityName){
         currWeatherIconEl.setAttribute("alt", data.current.weather[0].description);
         //console.log(data.current.weather[0].icon);
         let currTempEl = document.createElement("p");
-        currTempEl.textContent = "Current Temperature: " + Math.floor((data.current.temp - 273.15) * (9 / 5) + 32) + " (F) " + Math.floor((data.current.temp - 273.15)) + " (C) (or " + data.current.temp + " (K))";
+        currTempEl.textContent = "Current Temperature: " + Math.floor((data.current.temp - 273.15) * (9 / 5) + 32) + " (F)/" + Math.floor((data.current.temp - 273.15)) + " (C) (or " + data.current.temp + " (K))";
         cityCurrWeatherEl.appendChild(currTempEl)
 
         let currWindEl = document.createElement("p");
@@ -115,8 +118,48 @@ let displayWeatherInfo = function(wInfo, tCityName){
         //append to container to show on webpage
 
         cityCurrWeatherEl.appendChild(currUVIndexEl)
+
+        // create forecast boxes
+
+        
+        for (let i = 0 ; i < 5 ; i++){
+            let forcastData = data.daily[i];
+            let fBoxContEl = document.createElement("div");
+            fBoxContEl.className = "f-box";
+
+            let fBoxDateEl = document.createElement("h4");
+            fBoxDateEl.textContent = forecastDay(currDate, (i + 1));
+            fBoxContEl.appendChild(fBoxDateEl);
+
+            let fBoxSymEl = document.createElement("img");
+            fBoxSymEl.setAttribute("src", "https://openweathermap.org/img/wn/" + forcastData.weather[0].icon + ".png");
+            fBoxSymEl.setAttribute("alt", forcastData.weather[0].description);
+            fBoxContEl.appendChild(fBoxSymEl);
+
+            let fBoxTempEl = document.createElement("p");
+            fBoxTempEl.textContent = "Temp: " + Math.floor((forcastData.temp.day - 273.15) * (9 / 5) + 32) + " (F)/" + Math.floor((forcastData.temp.day - 273.15)) + " (C)";
+            fBoxContEl.appendChild(fBoxTempEl);
+
+            let fBoxWindEl = document.createElement("p");
+            fBoxWindEl.textContent = "Wind: " + (forcastData.wind_speed * 2.237).toFixed(2) + " MPH";
+            fBoxContEl.appendChild(fBoxWindEl);
+
+            let fBoxHumEl = document.createElement("p");
+            fBoxHumEl.textContent = "Humidity: " + forcastData.humidity + "%";
+            fBoxContEl.appendChild(fBoxHumEl);
+
+            cityFutWeatherEl.appendChild(fBoxContEl);
+        }
+
+        
     });
 
 };
+
+function forecastDay(date, addD) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + addD);
+    return result.toDateString();
+  }
 
 citySearchBtnEl.addEventListener("click", formSubmitHandler);
