@@ -3,6 +3,9 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+/* style the top of the page */
+
 header {
     display: flex;
     width: 100%;
@@ -15,12 +18,21 @@ header {
     color: white;
 }
 
+.wb-top h2 {
+    display: flex;
+    align-items: center;
+}
+
+/* style the body of the page */
+
 main {
     display: flex;
     flex-wrap: wrap;
     width: 100%;
     justify-content: space-evenly;
 }
+
+/* style the search box column */
 
 .search-box {
     display: flex;
@@ -81,6 +93,8 @@ main {
     color: white;
 }
 
+/* style the weather info portion of the page */
+
 .weather-box {
     margin-left: 15px;
     width: 75%;
@@ -91,6 +105,13 @@ main {
     padding: 5px;
     line-height: 1.8;
 }
+
+.weather-icon {
+    width: 40px;
+    height: 40px;
+}
+
+/* style the forcast portion of the weather box */
 
 .five-day-label {
     margin-bottom: 5px;
@@ -109,4 +130,41 @@ main {
     line-height: 1.5;
     padding: 5px;
     width: 19%;
+}
+
+/* style the UV Index warning states */
+
+.uv-danger {
+    padding: 1px 5px;
+    border-radius: 5px;
+}
+
+.uv-noneFound {
+    background-color: white;
+    color: black;
+}
+
+.uv-low {
+    background-color: green;
+    color: white;
+}
+
+.uv-moderate {
+    background-color: yellowgreen;
+    color: white;
+}
+
+.uv-high {
+    background-color: yellow;
+    color: black;
+}
+
+.uv-very-high {
+    background-color: orange;
+    color: white;
+}
+
+.uv-severe {
+    background-color: red;
+    color: white;
 }
