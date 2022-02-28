@@ -103,7 +103,7 @@ main {
 .wb-top {
     border: 2px black solid;
     padding: 5px;
-    line-height: 1.8;
+    line-height: 2.0;
 }
 
 .weather-icon {
@@ -125,11 +125,12 @@ main {
 }
 
 .f-box {
-    background-color: slategray;
+    background-color: darkmagenta;
     color: white;
     line-height: 1.5;
     padding: 5px;
-    width: 19%;
+    width: 16%;
+    border-radius: 10px;
 }
 
 /* style the UV Index warning states */

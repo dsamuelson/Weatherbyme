@@ -6,8 +6,7 @@ let cityPrevSearchEl = document.querySelector("#previous-cs-box");
 let cityCurrWeatherEl = document.querySelector("#wb-top");
 let cityFutWeatherEl = document.querySelector("#forcast-boxes");
 let currDate = new Date();
-
-console.log(currDate);
+const prevSearches = [];
 
 // get the input from the text field and send it to get the weather info
 
@@ -19,10 +18,35 @@ let formSubmitHandler = function(event) {
     searchHistoryEl.className = "p-search-btn";
     if (citySearchName) {
         getWeatherInfo(citySearchName);
+        saveSearchCity(citySearchName);
         citySearchEl.value = "";
     } else {
         alert("Please enter a city name");
         return false;
+    }
+};
+
+let saveSearchCity = function(citySearchedName) {
+    prevSearches.push(citySearchedName);
+    let pSearchBtnEl = document.createElement("button");
+    pSearchBtnEl.className = "p-search-btn";
+    pSearchBtnEl.setAttribute("data-city", citySearchedName);
+    pSearchBtnEl.textContent = citySearchedName;
+    pSearchBtnEl.addEventListener("click", function() {
+    getWeatherInfo(citySearchedName);
+    });
+    cityPrevSearchEl.appendChild(pSearchBtnEl);
+    localStorage.setItem("cities", JSON.stringify(prevSearches));
+    
+};
+
+let loadSearchCity = function() {
+    let citiesSearched = JSON.parse(localStorage.getItem("cities"));
+    if (citiesSearched) {
+        for (let i = 0 ; i < citiesSearched.length ; i++){
+            saveSearchCity(citiesSearched[i]);
+        }
+
     }
 };
 
@@ -64,6 +88,13 @@ let getLocationData = function(cInfo) {
 };
 
 let displayWeatherInfo = function(wInfo, tCityName){
+    // clear current weather elements
+
+    cityCurrWeatherEl.innerHTML = "";
+    cityFutWeatherEl.innerHTML = "";
+
+    // get true city name from geolocation
+
     tCityName.then(function(data) {
         let currCityName = document.createElement("h2");
         currCityName.textContent = data[0].name + ", " + data[0].state + " (" + data[0].country + ") | " + currDate.toDateString();
@@ -73,13 +104,12 @@ let displayWeatherInfo = function(wInfo, tCityName){
         cityCurrWeatherEl.appendChild(currCityName);
     });
     wInfo.then(function(data) {
-        console.log(data);
-
         //Create elements that will contain and show the information gathered from the data
+
         let currWeatherIconEl = document.querySelector(".weather-icon");
         currWeatherIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + data.current.weather[0].icon + "@2x.png");
         currWeatherIconEl.setAttribute("alt", data.current.weather[0].description);
-        //console.log(data.current.weather[0].icon);
+
         let currTempEl = document.createElement("p");
         currTempEl.textContent = "Current Temperature: " + Math.floor((data.current.temp - 273.15) * (9 / 5) + 32) + " (F)/" + Math.floor((data.current.temp - 273.15)) + " (C) (or " + data.current.temp + " (K))";
         cityCurrWeatherEl.appendChild(currTempEl)
@@ -121,7 +151,6 @@ let displayWeatherInfo = function(wInfo, tCityName){
 
         // create forecast boxes
 
-        
         for (let i = 0 ; i < 5 ; i++){
             let forcastData = data.daily[i];
             let fBoxContEl = document.createElement("div");
@@ -156,6 +185,8 @@ let displayWeatherInfo = function(wInfo, tCityName){
 
 };
 
+// add days for the forecast date element
+
 function forecastDay(date, addD) {
     var result = new Date(date);
     result.setDate(result.getDate() + addD);
@@ -163,3 +194,5 @@ function forecastDay(date, addD) {
   }
 
 citySearchBtnEl.addEventListener("click", formSubmitHandler);
+
+loadSearchCity();
