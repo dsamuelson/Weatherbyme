@@ -56,7 +56,7 @@ let getWeatherInfo = function(cityName) {
 
     //this first part gets the latitude and longitude of the named city to put into the oncall api
 
-    let apiUrlLatLon = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=00ac63cafa4c25e7c142d8cdb9b63fc2"; 
+    let apiUrlLatLon = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=1&appid=00ac63cafa4c25e7c142d8cdb9b63fc2"; 
     // Checks to see if we received a valid response
     fetch(apiUrlLatLon).then(function(response){
         if (response.ok) {
@@ -77,7 +77,7 @@ let getLocationData = function(cInfo) {
      //uses the latitude and longitude from the data received to place another API call to get the latitude and longitude
      let apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cInfo[0].lat + "&lon=" + cInfo[0].lon + "&exclude=minutely,hourly&appid=00ac63cafa4c25e7c142d8cdb9b63fc2"
      //reverse the search to get the true name of the city from the coordinates
-     let trueCityNameUrl = "http://api.openweathermap.org/geo/1.0/reverse?lat=" + cInfo[0].lat + "&lon=" + cInfo[0].lon + "&limit=1&appid=00ac63cafa4c25e7c142d8cdb9b63fc2";
+     let trueCityNameUrl = "https://api.openweathermap.org/geo/1.0/reverse?lat=" + cInfo[0].lat + "&lon=" + cInfo[0].lon + "&limit=1&appid=00ac63cafa4c25e7c142d8cdb9b63fc2";
      //get weather data
      Promise.all([
          fetch(apiUrl),
