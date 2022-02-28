@@ -1,5 +1,3 @@
-//appid=00ac63cafa4c25e7c142d8cdb9b63fc2";
-
 let citySearchEl = document.querySelector("#city-search");
 let citySearchBtnEl = document.querySelector("#cs-btn");
 let cityPrevSearchEl = document.querySelector("#previous-cs-box");
@@ -26,6 +24,8 @@ let formSubmitHandler = function(event) {
     }
 };
 
+// saves the previous searches in localstorage and makes buttons for them
+
 let saveSearchCity = function(citySearchedName) {
     prevSearches.push(citySearchedName);
     let pSearchBtnEl = document.createElement("button");
@@ -39,6 +39,8 @@ let saveSearchCity = function(citySearchedName) {
     localStorage.setItem("cities", JSON.stringify(prevSearches));
     
 };
+
+// get any information from localstorage and send to get its contents created in the save function
 
 let loadSearchCity = function() {
     let citiesSearched = JSON.parse(localStorage.getItem("cities"));
@@ -196,3 +198,7 @@ function forecastDay(date, addD) {
 citySearchBtnEl.addEventListener("click", formSubmitHandler);
 
 loadSearchCity();
+
+// load up one page just to have the data there
+
+getWeatherInfo("Atlanta");
