@@ -87,7 +87,7 @@ let getLocationData = function(cInfo) {
 
 let displayWeatherInfo = function(wInfo, tCityName){
     // clear current weather elements
-    console.log(wInfo,tCityName);
+    
     cityCurrWeatherEl.innerHTML = "";
     cityFutWeatherEl.innerHTML = "";
 
