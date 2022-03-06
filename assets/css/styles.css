@@ -169,3 +169,30 @@ main {
     background-color: red;
     color: white;
 }
+
+@media screen and (max-width: 768px) {
+    main {
+        flex-direction: column;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .weather-box {
+        width: 90%;
+        margin-top: 10px;
+        justify-content: center;
+    }
+
+    .forcast-boxes {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .f-box {
+        width: 90%;
+        margin-top: 10px;
+    }
+}
