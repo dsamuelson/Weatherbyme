@@ -104,6 +104,7 @@ let displayWeatherInfo = function(wInfo, tCityName){
 
         currWeatherIconEl.setAttribute("src", "https://openweathermap.org/img/wn/" + wInfo.current.weather[0].icon + "@2x.png");
         currWeatherIconEl.setAttribute("alt", wInfo.current.weather[0].description);
+        currWeatherIconEl.setAttribute("title", wInfo.current.weather[0].description);
 
         let currTempEl = document.createElement("p");
         currTempEl.textContent = "Current Temperature: " + Math.floor((wInfo.current.temp - 273.15) * (9 / 5) + 32) + " (F)/" + Math.floor((wInfo.current.temp - 273.15)) + " (C) (or " + wInfo.current.temp + " (K))";
@@ -157,6 +158,7 @@ let displayWeatherInfo = function(wInfo, tCityName){
             let fBoxSymEl = document.createElement("img");
             fBoxSymEl.setAttribute("src", "https://openweathermap.org/img/wn/" + forcastData.weather[0].icon + ".png");
             fBoxSymEl.setAttribute("alt", forcastData.weather[0].description);
+            fBoxSymEl.setAttribute("title", forcastData.weather[0].description);
             fBoxContEl.appendChild(fBoxSymEl);
     
             let fBoxTempEl = document.createElement("p");
